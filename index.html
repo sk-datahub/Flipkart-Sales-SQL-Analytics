@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b14">
+    <title>Flipkart Sales SQL Analytics | Shubham Kumbhar</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <aside class="sidebar">
+        <a href="#home" class="brand">
+            <span class="brand-icon">F</span>
+            <span>flipkart<span class="brand-dot">.</span><small>SALES INTELLIGENCE</small></span>
+        </a>
+
+        <div class="side-label">WORKSPACE</div>
+        <nav class="side-nav">
+            <a href="#home" class="nav-link active"><span>⌂</span> Home</a>
+            <a href="#dashboard" class="nav-link"><span>▦</span> Dashboard</a>
+            <a href="#schema" class="nav-link"><span>▤</span> Schema</a>
+            <a href="#sql" class="nav-link"><span>⌘</span> SQL</a>
+            <a href="#insights" class="nav-link"><span>✦</span> Insights</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="profile-avatar">SK</div>
+            <div class="profile-info">
+                <strong>Shubham Kumbhar</strong>
+                <span>Data Analyst Portfolio</span>
+            </div>
+            <span class="online-dot"></span>
+        </div>
+    </aside>
+
+    <main class="main-content" id="home">
+        <header class="topbar">
+            <div>
+                <div class="breadcrumb">SQL DATA ANALYTICS PROJECT <span>/</span> FLIPKART</div>
+                <h1>Flipkart Sales <span class="accent-text">SQL Analytics</span></h1>
+            </div>
+            <div class="top-actions">
+                <span class="date-label" id="todayDate">SQL · Data Analytics · Dashboard</span>
+
+            </div>
+        </header>
+
+        <section class="hero-banner">
+            <div class="hero-copy">
+                <span class="hero-tag"><span class="sparkle">●</span> SQL DATA ANALYTICS PROJECT</span>
+                <h2>Flipkart Sales<br><span>SQL Analytics</span></h2>
+                <p>An interactive SQL-focused data analytics project exploring monthly revenue, profit, orders and business performance. Explore the dashboard, database schema, SQL queries and key insights.</p>
+                <div class="hero-actions"><a href="#dashboard" class="hero-button">Explore Dashboard <span>→</span></a><a href="#sql" class="hero-button hero-button-secondary">View SQL Queries</a></div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="orbit orbit-outer"></div>
+                <div class="orbit orbit-inner"></div>
+                <div class="visual-core">₹</div>
+                <div class="float-card float-card-top"><span>↗</span>
+                    <div><small>REVENUE</small><strong>Growth mindset</strong></div>
+                </div>
+                <div class="float-card float-card-bottom"><span>▥</span>
+                    <div><small>ANALYTICS</small><strong>Data to decisions</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" id="dashboard">
+            <div class="section-title">
+                <div><span class="section-kicker">PERFORMANCE SNAPSHOT</span>
+                    <h2>Business Overview</h2>
+                    <p>Here’s what’s happening with your sales.</p>
+                </div>
+                <div class="filter-box"><label for="monthFilter">PERIOD</label><select id="monthFilter">
+                        <option value="all">All months</option>
+                    </select></div>
+            </div>
+
+            <div id="dataNotice" class="notice">
+                <span class="notice-icon">ⓘ</span>
+                <span><strong>Demo data is active.</strong> Import your <code>monthly_sales.csv</code> to see your
+                    actual results.</span>
+            </div>
+
+            <div class="metrics-grid">
+                <article class="metric-card metric-blue">
+                    <div class="metric-heading"><span>Total Revenue</span><span class="metric-icon">₹</span></div>
+                    <h3 id="totalSales">₹0</h3>
+                    <div class="metric-footer"><span class="metric-caption">Gross sales generated</span><span
+                            class="metric-decoration">↗</span></div>
+                    <div class="metric-line"></div>
+                </article>
+                <article class="metric-card metric-purple">
+                    <div class="metric-heading"><span>Net Profit</span><span class="metric-icon">↗</span></div>
+                    <h3 id="totalProfit">₹0</h3>
+                    <div class="metric-footer"><span class="metric-caption">Profit earned</span><span
+                            class="metric-decoration">✦</span></div>
+                    <div class="metric-line"></div>
+                </article>
+                <article class="metric-card metric-cyan">
+                    <div class="metric-heading"><span>Total Orders</span><span class="metric-icon">▤</span></div>
+                    <h3 id="totalOrders">0</h3>
+                    <div class="metric-footer"><span class="metric-caption">Orders processed</span><span
+                            class="metric-decoration">↗</span></div>
+                    <div class="metric-line"></div>
+                </article>
+                <article class="metric-card metric-green">
+                    <div class="metric-heading"><span>Profit Margin</span><span class="metric-icon">%</span></div>
+                    <h3 id="profitMargin">0%</h3>
+                    <div class="metric-footer"><span class="metric-caption">Profit / total revenue</span><span
+                            class="metric-decoration">✦</span></div>
+                    <div class="metric-line"></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section-block" id="sales-analysis">
+            <div class="section-title">
+                <div><span class="section-kicker">VISUAL EXPLORATION</span>
+                    <h2>Sales Performance</h2>
+                    <p>Understand your business through interactive charts.</p>
+                </div>
+                <span class="chart-label"><span class="chart-dot"></span> Monthly insights</span>
+            </div>
+
+            <div class="charts-grid">
+                <article class="glass-panel main-chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Revenue vs Profit</h3>
+                            <p>Monthly financial performance</p>
+                        </div><span class="panel-menu">•••</span>
+                    </div>
+                    <div class="chart-legend"><span><i class="legend-blue"></i> Revenue</span><span><i
+                                class="legend-purple"></i> Profit</span></div>
+                    <div class="chart-container"><canvas id="salesChart"></canvas></div>
+                </article>
+                <article class="glass-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Order Activity</h3>
+                            <p>Orders across selected months</p>
+                        </div><span class="panel-menu">•••</span>
+                    </div>
+                    <div class="chart-container order-chart"><canvas id="ordersChart"></canvas></div>
+                    <div class="chart-bottom-note"><span class="chart-dot"></span> Order volume trend</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Business Insights -->
+        <section class="section-block" id="insights">
+            <div class="section-title">
+                <div>
+                    <span class="section-kicker">SMART ANALYTICS</span>
+                    <h2>Key Insights ✨</h2>
+                    <p>Discover what your sales data is telling you.</p>
+                </div>
+                <span class="live-badge">
+                    <i></i> AUTO GENERATED
+                </span>
+            </div>
+
+            <div class="insights-grid" id="insightsGrid"></div>
+        </section>
+        <section class="section-block" id="data">
+            <div class="section-title">
+                <div><span class="section-kicker">RAW DATA, CLEAR INSIGHTS</span>
+                    <h2>Monthly Breakdown</h2>
+                    <p>Explore the numbers behind your dashboard.</p>
+                </div>
+                <button class="button button-secondary" id="resetFilter">↺ Reset filters</button>
+            </div>
+            <article class="glass-panel table-panel">
+                <div class="table-top">
+                    <div>
+                        <h3>Monthly Sales Report</h3>
+                        <p>Revenue, profit and order details</p>
+                    </div><span id="rowCount" class="row-count">0 records</span>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MONTH</th>
+                                <th>REVENUE</th>
+                                <th>NET PROFIT</th>
+                                <th>ORDERS</th>
+                                <th>PROFIT MARGIN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesTable"></tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <section class="section-block" id="schema">
+            <div class="section-title">
+                <div><span class="section-kicker">DATABASE DESIGN</span><h2>Database <span class="accent-text">Schema</span></h2><p>Table structure used for SQL analysis.</p></div>
+                <span class="sql-count">MySQL · monthly_sales</span>
+            </div>
+            <article class="glass-panel table-panel schema-panel">
+                <div class="table-top"><div><h3>monthly_sales</h3><p>Monthly Flipkart sales performance dataset</p></div><span class="row-count">4 columns</span></div>
+                <div class="table-scroll"><table><thead><tr><th>COLUMN</th><th>DATA TYPE</th><th>DESCRIPTION</th></tr></thead><tbody>
+                    <tr><td><code>sales_month</code></td><td>VARCHAR(7)</td><td>Sales month in YYYY-MM format</td></tr>
+                    <tr><td><code>monthly_sales</code></td><td>DECIMAL(12,2)</td><td>Total revenue generated in the month</td></tr>
+                    <tr><td><code>monthly_profit</code></td><td>DECIMAL(12,2)</td><td>Net profit earned in the month</td></tr>
+                    <tr><td><code>total_orders</code></td><td>INT</td><td>Number of orders processed</td></tr>
+                </tbody></table></div>
+            </article>
+        </section>
+
+        <section class="section-block" id="sql">
+            <div class="section-title sql-section-title">
+                <div>
+                    <span class="section-kicker">SQL PLAYGROUND</span>
+                    <h2>SQL Query Library</h2>
+                    <p>Explore the business questions behind this sales dashboard.</p>
+                </div>
+                <div class="sql-count"><span class="chart-dot"></span> 10 practical queries</div>
+            </div>
+
+            <div class="sql-intro glass-panel">
+                <div class="sql-intro-icon">&lt;/&gt;</div>
+                <div>
+                    <h3>Built for MySQL 8+</h3>
+                    <p>These queries use the <code>monthly_sales</code> table and its columns: <code>sales_month</code>, <code>monthly_sales</code>, <code>monthly_profit</code>, and <code>total_orders</code>. Copy a query and run it in MySQL Workbench after importing your CSV.</p>
+                </div>
+            </div>
+
+            <div class="sql-toolbar">
+                <label class="sql-search-wrap" for="sqlSearch"><span>⌕</span><input id="sqlSearch" type="search" placeholder="Search SQL queries, e.g. profit, ranking..." autocomplete="off"></label>
+                <span class="sql-result-count" id="sqlResultCount">10 queries</span>
+            </div>
+
+            <div class="sql-grid" id="sqlGrid">
+                <article class="sql-card" data-search="total revenue sales sum aggregate basics">
+                    <div class="sql-card-top"><span class="sql-number">01</span><span class="sql-tag">BASICS</span></div>
+                    <h3>Calculate total revenue</h3>
+                    <p>Find the total sales revenue generated across all months.</p>
+                    <pre><code>SELECT
+    SUM(monthly_sales) AS total_revenue
+FROM monthly_sales;</code></pre>
+                    <div class="sql-card-footer"><span>SUM · Aggregate</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="monthly revenue trend sales order by">
+                    <div class="sql-card-top"><span class="sql-number">02</span><span class="sql-tag">TREND</span></div>
+                    <h3>Monthly revenue report</h3>
+                    <p>Compare revenue month by month in chronological order.</p>
+                    <pre><code>SELECT
+    sales_month,
+    monthly_sales AS revenue
+FROM monthly_sales
+ORDER BY sales_month;</code></pre>
+                    <div class="sql-card-footer"><span>SELECT · ORDER BY</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="highest profit top months order by limit">
+                    <div class="sql-card-top"><span class="sql-number">03</span><span class="sql-tag">PROFIT</span></div>
+                    <h3>Top 5 profit months</h3>
+                    <p>Identify the five months with the highest profit.</p>
+                    <pre><code>SELECT
+    sales_month,
+    monthly_profit
+FROM monthly_sales
+ORDER BY monthly_profit DESC
+LIMIT 5;</code></pre>
+                    <div class="sql-card-footer"><span>ORDER BY · LIMIT</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="profit margin percentage calculation">
+                    <div class="sql-card-top"><span class="sql-number">04</span><span class="sql-tag">KPI</span></div>
+                    <h3>Calculate profit margin</h3>
+                    <p>Calculate the profit margin percentage for each month.</p>
+                    <pre><code>SELECT
+    sales_month,
+    ROUND(
+        monthly_profit / NULLIF(monthly_sales, 0) * 100,
+        2
+    ) AS profit_margin_pct
+FROM monthly_sales
+ORDER BY sales_month;</code></pre>
+                    <div class="sql-card-footer"><span>ROUND · NULLIF</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="total orders average orders sum count">
+                    <div class="sql-card-top"><span class="sql-number">05</span><span class="sql-tag">ORDERS</span></div>
+                    <h3>Order summary</h3>
+                    <p>View total orders and average orders per month.</p>
+                    <pre><code>SELECT
+    SUM(total_orders) AS total_orders,
+    ROUND(AVG(total_orders), 2) AS avg_orders_per_month
+FROM monthly_sales;</code></pre>
+                    <div class="sql-card-footer"><span>SUM · AVG</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="rank revenue window function ranking highest">
+                    <div class="sql-card-top"><span class="sql-number">06</span><span class="sql-tag">WINDOW</span></div>
+                    <h3>Rank months by revenue</h3>
+                    <p>Rank each month from highest to lowest revenue.</p>
+                    <pre><code>SELECT
+    sales_month,
+    monthly_sales,
+    RANK() OVER (
+        ORDER BY monthly_sales DESC
+    ) AS revenue_rank
+FROM monthly_sales;</code></pre>
+                    <div class="sql-card-footer"><span>RANK · OVER</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="month over month growth lag previous revenue change">
+                    <div class="sql-card-top"><span class="sql-number">07</span><span class="sql-tag">WINDOW</span></div>
+                    <h3>Month-over-month change</h3>
+                    <p>Compare revenue with the previous month.</p>
+                    <pre><code>WITH monthly_trend AS (
+    SELECT
+        sales_month,
+        monthly_sales,
+        LAG(monthly_sales) OVER (
+            ORDER BY sales_month
+        ) AS previous_month_sales
+    FROM monthly_sales
+)
+SELECT *,
+    ROUND(monthly_sales - previous_month_sales, 2)
+        AS revenue_change
+FROM monthly_trend
+ORDER BY sales_month;</code></pre>
+                    <div class="sql-card-footer"><span>CTE · LAG</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="above average revenue subquery filter">
+                    <div class="sql-card-top"><span class="sql-number">08</span><span class="sql-tag">SUBQUERY</span></div>
+                    <h3>Months above average sales</h3>
+                    <p>Find months where revenue is higher than the overall monthly average.</p>
+                    <pre><code>SELECT sales_month, monthly_sales
+FROM monthly_sales
+WHERE monthly_sales > (
+    SELECT AVG(monthly_sales)
+    FROM monthly_sales
+)
+ORDER BY monthly_sales DESC;</code></pre>
+                    <div class="sql-card-footer"><span>WHERE · Subquery</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="case when categorize performance revenue high medium low">
+                    <div class="sql-card-top"><span class="sql-number">09</span><span class="sql-tag">LOGIC</span></div>
+                    <h3>Categorize sales performance</h3>
+                    <p>Label each month as high, medium, or low revenue using thresholds you can adjust.</p>
+                    <pre><code>SELECT
+    sales_month,
+    monthly_sales,
+    CASE
+        WHEN monthly_sales >= 7000000 THEN 'High'
+        WHEN monthly_sales >= 5000000 THEN 'Medium'
+        ELSE 'Low'
+    END AS sales_category
+FROM monthly_sales
+ORDER BY sales_month;</code></pre>
+                    <div class="sql-card-footer"><span>CASE · WHEN</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+
+                <article class="sql-card" data-search="overall business performance total revenue profit margin orders cte">
+                    <div class="sql-card-top"><span class="sql-number">10</span><span class="sql-tag">SUMMARY</span></div>
+                    <h3>Overall business summary</h3>
+                    <p>Bring the main business KPIs together in one result row.</p>
+                    <pre><code>SELECT
+    SUM(monthly_sales) AS total_revenue,
+    SUM(monthly_profit) AS total_profit,
+    SUM(total_orders) AS total_orders,
+    ROUND(
+        SUM(monthly_profit) / NULLIF(SUM(monthly_sales), 0) * 100,
+        2
+    ) AS profit_margin_pct
+FROM monthly_sales;</code></pre>
+                    <div class="sql-card-footer"><span>SUM · KPI summary</span><button class="copy-query" type="button">Copy query</button></div>
+                </article>
+            </div>
+            <div class="sql-empty" id="sqlEmpty" hidden>No SQL queries match your search. Try another keyword.</div>
+            <p class="sql-disclaimer"><span>ⓘ</span> This page is a query reference, not a live SQL console. Queries execute in your database tool, not inside this website.</p>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-brand"><span class="brand-icon small-brand">F</span> Flipkart Sales SQL Analytics</div>
+            <span>SQL · MySQL · JavaScript · Chart.js</span>
+            <span class="creator-credit">Created &amp; Designed by <strong>Shubham Kumbhar</strong></span>
+            <span>© <span id="year"></span> All rights reserved</span>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
